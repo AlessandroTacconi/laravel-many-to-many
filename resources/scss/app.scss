@@ -1,0 +1,55 @@
+@import "~bootstrap/scss/bootstrap";
+
+@font-face {
+    font-family: amagro;
+    src: url(/resources/fonts/Amagro.ttf);
+}
+
+h1,
+h2,
+h3 {
+    font-size: 70px;
+}
+
+.proj {
+    font-family: amagro;
+    text-transform: uppercase;
+    border: 3px solid black;
+    padding: 5px;
+}
+
+.left {
+    margin-top: 35vh;
+}
+.btn {
+    font-family: amagro;
+    text-transform: uppercase;
+}
+
+.card {
+    border: 3px solid black;
+}
+
+.scorrevole {
+    overflow: hidden;
+    overflow-y: scroll;
+    max-height: 100vh;
+}
+
+.scorrevole ul {
+    list-style: none;
+    animation: scorrimento 180s linear infinite;
+}
+
+@keyframes scorrimento {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(-100%);
+    }
+}
+
+.index {
+    margin-top: 10px;
+}
