@@ -9,14 +9,14 @@ class Project extends Model
 {
     use HasFactory;
 
-    protected $guarded = ['slug', 'user_id'];
+    protected $guarded = ['slug', 'user_id', 'technologies'];
 
     public function category()
     {
         return $this->belongsTo(Category::class);
     }
 
-    public function technology()
+    public function technologies()
     {
         return $this->belongsToMany(Technology::class);
     }

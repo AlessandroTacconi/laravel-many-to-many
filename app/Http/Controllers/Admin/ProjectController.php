@@ -7,7 +7,7 @@ use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
 use App\Models\Category;
 use App\Models\Project;
-
+use App\Models\Technology;
 use Illuminate\Support\Str;
 
 class ProjectController extends Controller
@@ -28,7 +28,8 @@ class ProjectController extends Controller
     public function create()
     {
         $categories = Category::all();
-        return view('admin.projects.create', compact('categories'));
+        $technologies = Technology::all();
+        return view('admin.projects.create', compact('categories', 'technologies'));
     }
 
     /**
@@ -45,10 +46,13 @@ class ProjectController extends Controller
         $project->year = $data['year'];
         $project->category_id = $data['category_id'];
 
-
         $project->slug = Str::of($project->title)->slug('-');
 
         $project->save();
+
+        if (isset($data['technologies'])) {
+            $project->technologies()->sync($data['technologies']);
+        }
 
         return redirect()->route('admin.projects.show', ['project' => $project->slug])->with('message', 'proj creato con successo');
 
@@ -69,8 +73,9 @@ class ProjectController extends Controller
     public function edit(Project $project)
     {
         $categories = Category::all();
+        $technologies = Technology::all();
 
-        return view('admin.projects.edit', compact('project', 'categories'));
+        return view('admin.projects.edit', compact('project', 'categories', 'technologies'));
         
     }
 
@@ -90,6 +95,14 @@ class ProjectController extends Controller
 
         $project->update($data);
 
+
+        if ($request->has('technologies')) {
+            $project->technologies()->sync($data['technologies']);
+        } else {
+            $project->technologies()->sync([]);
+
+        }
+
         return redirect()->route('admin.projects.show', ['project' => $project->slug])->with('message', 'proj aggiornato con successo');
     }
 
@@ -99,6 +112,9 @@ class ProjectController extends Controller
     public function destroy(Project $project)
     {
  
+        $project->technologies()->sync([]);
+
+
         $project_id = $project->id;
         $project->delete();
 

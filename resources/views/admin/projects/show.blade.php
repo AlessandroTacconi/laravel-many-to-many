@@ -26,7 +26,13 @@
         </div>
         <div>
             <h5>{{ $project->title }}</h5>
-            <p>{{ $project->category?->title }} - {{ $project->year }}</p>
+            <p>{{ $project->category?->title ?: 'nessuna categoria' }} - {{ $project->year }}</p>
+            <ul>
+                @foreach ($project->technologies as $technology)
+                    <li>{{ $technology->title }}</li>
+                @endforeach
+            </ul>
+
             <p>{{ $project->description }}</p>
         </div>
     </div>

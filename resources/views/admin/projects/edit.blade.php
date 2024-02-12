@@ -39,6 +39,30 @@
             <input type="year" class="form-control" id="year" placeholder="year" name="year"
                 value="{{ old('year', $project->year) }}">
         </div>
+
+        <div class="mb-3">
+            <div>
+                <label for="technologies" class="form-label">Tecnologie usate</label>
+            </div>
+
+
+            @foreach ($technologies as $technology)
+                <div class="form-check form-check-inline">
+
+                    @if ($errors->any())
+                        <input class="form-check-input" type="checkbox" id="{{ $technology->id }}"
+                            value="{{ $technology->id }}" name="technologies[]"
+                            {{ in_array($technology->id, old('technologies', [])) ? 'checked' : '' }}>
+                        <label class="form-check-label" for="{{ $technology->id }}">{{ $technology->title }}</label>
+                    @else
+                        <input class="form-check-input" type="checkbox" id="{{ $technology->id }}"
+                            value="{{ $technology->id }}" name="technologies[]"
+                            {{ $project->technologies->contains($technology->id) ? 'checked' : '' }}>
+                        <label class="form-check-label" for="{{ $technology->id }}">{{ $technology->title }}</label>
+                    @endif
+                </div>
+            @endforeach
+        </div>
         <div class="mb-3">
             <label for="description" class="form-label">description</label>
             <textarea class="form-control" id="description" rows="3" id="description" name="description"
